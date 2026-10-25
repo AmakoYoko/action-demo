@@ -1,9 +1,12 @@
 services:
-  web:
-    image: busybox:stable
-    command: httpd -f -p 8080 -h /data
-    ports: ["8080:8080"]
-    volumes: ["data:/data"]
+  status:
+    image: python:3.12-alpine
+    command: python -u /app/server.py
+    network_mode: host
     restart: "no"
+    volumes:
+      - ./server.py:/app/server.py:ro
+      - data:/data
+      - /etc/hostname:/host/hostname:ro
 volumes:
   data:
